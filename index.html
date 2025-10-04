@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>After School Program</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
+    header { background: #3b82f6; color: white; padding: 20px; text-align: center; }
+    main { padding: 20px; }
+    .card { background: white; padding: 20px; margin: 20px auto; border-radius: 10px; max-width: 600px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);}
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 5px;}
+    button { background: #3b82f6; color: white; padding: 12px 20px; border: none; border-radius: 5px; margin-top: 15px; cursor: pointer;}
+    button:hover { background: #2563eb; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>After School Program</h1>
+    <p>Fun, Safe, and Educational Activities for Kids</p>
+  </header>
+  <main>
+    <div class="card">
+      <h2>Enroll Your Child</h2>
+      <form>
+        <label>Child's Name:</label>
+        <input type="text" required>
+        <label>Age:</label>
+        <input type="number" required>
+        <label>Grade/Standard:</label>
+        <input type="text" required>
+        <label>Parent's Name:</label>
+        <input type="text" required>
+        <label>Email:</label>
+        <input type="email" required>
+        <label>Phone:</label>
+        <input type="tel" required>
+        <button type="submit">Submit Enrollment</button>
+      </form>
+      <h3>Payment</h3>
+      <!-- Example PayPal Button -->
+      <form action="https://www.paypal.com/ncp/payment/YOUR-LINK-HERE" method="post" target="_blank">
+        <button type="submit">Pay Now (via PayPal)</button>
+      </form>
+      <!-- Replace with Billplz/ToyyibPay payment link later -->
+    </div>
+  </main>
+</body>
+</html>
