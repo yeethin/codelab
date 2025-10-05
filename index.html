@@ -1,350 +1,1210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>CodeLab After School Program</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f9fafb; }
-    
-    /* Language Selector */
-    .language-selector { position: fixed; top: 20px; right: 20px; z-index: 1000; background: white; border-radius: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 5px; display: flex; gap: 5px; }
-    .language-selector button { padding: 8px 20px; border: none; background: transparent; cursor: pointer; border-radius: 20px; font-weight: 500; transition: all 0.3s; color: #6b7280; }
-    .language-selector button.active { background: #3b82f6; color: white; }
-    .language-selector button:hover { color: #3b82f6; }
-    .language-selector button.active:hover { color: white; }
-    
-    /* Navigation */
-    nav { background: white; padding: 15px 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
-    nav .container { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
-    nav .logo { display: flex; align-items: center; gap: 12px; font-size: 24px; font-weight: bold; color: #3b82f6; }
-    nav .logo-circle { width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px; font-weight: bold; }
-    nav .nav-links { display: flex; gap: 30px; align-items: center; }
-    nav a { text-decoration: none; color: #4b5563; font-weight: 500; transition: color 0.3s; }
-    nav a:hover { color: #3b82f6; }
-    
-    /* Hero Section */
-    .hero { background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); color: white; padding: 80px 5%; text-align: center; }
-    .hero h1 { font-size: 48px; margin-bottom: 20px; }
-    .hero p { font-size: 20px; max-width: 700px; margin: 0 auto 40px; opacity: 0.95; }
-    .hero .cta-button { background: white; color: #3b82f6; padding: 16px 40px; font-size: 18px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; transition: transform 0.3s, box-shadow 0.3s; }
-    .hero .cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-    
-    /* Introduction Section */
-    .introduction { max-width: 900px; margin: 60px auto; padding: 0 20px; }
-    .introduction h2 { font-size: 36px; color: #1f2937; margin-bottom: 20px; text-align: center; }
-    .introduction p { font-size: 18px; line-height: 1.8; color: #4b5563; margin-bottom: 15px; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px; }
-    .feature-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align: center; transition: transform 0.3s; }
-    .feature-card:hover { transform: translateY(-5px); }
-    .feature-icon { font-size: 48px; margin-bottom: 15px; }
-    .feature-card h3 { color: #1f2937; margin-bottom: 10px; }
-    .feature-card p { color: #6b7280; font-size: 15px; }
-    
-    /* Enrollment Link Section */
-    .enrollment-section { background: white; padding: 60px 20px; text-align: center; margin: 60px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-    .enrollment-section h2 { font-size: 32px; color: #1f2937; margin-bottom: 15px; }
-    .enrollment-section p { color: #6b7280; font-size: 18px; margin-bottom: 30px; }
-    .enroll-button { background: #3b82f6; color: white; padding: 16px 50px; font-size: 18px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; transition: background 0.3s; }
-    .enroll-button:hover { background: #2563eb; }
-    
-    /* Stay in Touch Section */
-    .stay-in-touch { background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%); padding: 60px 20px; text-align: center; color: white; }
-    .stay-in-touch h2 { font-size: 32px; margin-bottom: 15px; }
-    .stay-in-touch p { font-size: 18px; margin-bottom: 30px; opacity: 0.95; }
-    .email-form { max-width: 500px; margin: 0 auto; display: flex; gap: 10px; }
-    .email-form input { flex: 1; padding: 15px 20px; border: none; border-radius: 30px; font-size: 16px; }
-    .email-form button { background: white; color: #3b82f6; padding: 15px 35px; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; transition: transform 0.3s; }
-    .email-form button:hover { transform: scale(1.05); }
-    .success-message { margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.2); border-radius: 10px; display: none; }
-    
-    /* Footer */
-    footer { background: #1f2937; color: white; padding: 40px 20px; text-align: center; }
-    footer p { margin-bottom: 10px; }
-    
-    /* Enrollment Page Styles */
-    .enrollment-page { display: none; }
-    .enrollment-page.active { display: block; }
-    .form-card { background: white; max-width: 600px; margin: 40px auto; padding: 40px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
-    .form-card h2 { color: #1f2937; margin-bottom: 10px; }
-    .form-card p { color: #6b7280; margin-bottom: 30px; }
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; color: #374151; font-weight: 500; margin-bottom: 8px; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 15px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 16px; transition: border 0.3s; }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #3b82f6; }
-    .submit-button { background: #3b82f6; color: white; padding: 14px 40px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; width: 100%; transition: background 0.3s; }
-    .submit-button:hover { background: #2563eb; }
-    .back-link { display: inline-block; margin: 20px 0; color: #3b82f6; text-decoration: none; font-weight: 500; }
-    .back-link:hover { text-decoration: underline; }
-    
-    @media (max-width: 768px) {
-      .hero h1 { font-size: 32px; }
-      .email-form { flex-direction: column; }
-      nav .nav-links { gap: 15px; font-size: 14px; }
-      .language-selector { top: 10px; right: 10px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The CodeLab - Kids Coding Education</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4285F4;
+            --secondary: #EA4335;
+            --accent: #FBBC04;
+            --success: #34A853;
+            --light: #F7F7F7;
+            --dark: #2A2A3E;
+            --gradient-1: linear-gradient(135deg, #4285F4 0%, #4285f4 100%);
+            --gradient-2: linear-gradient(135deg, #FBBC04 0%, #fbbc04 100%);
+            --gradient-3: linear-gradient(135deg, #EA4335 0%, #ea4335 100%);
+            --gradient-4: linear-gradient(135deg, #34A853 0%, #34a853 100%);
+            --gradient-5: linear-gradient(135deg, #e5ede7 0%, #e5ede7 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+            overflow-x: hidden;
+        }
+
+        .geometric-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(102, 126, 234, 0.1) 35px, rgba(102, 126, 234, 0.1) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(74, 172, 254, 0.1) 35px, rgba(74, 172, 254, 0.1) 70px);
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 999;
+            background: white;
+            padding: 8px;
+            border-radius: 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 5px;
+        }
+
+        .language-toggle button {
+            background: transparent;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            transition: all 0.3s ease;
+        }
+
+        .language-toggle button.active {
+            background: #74a7ff;
+            color: white;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo svg {
+            width: 45px;
+            height: 45px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: "Poppins", sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: white;
+            background: var(--gradient-1);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            transition: all 0.3s ease;
+            border-radius: 3px;
+        }
+
+        /* Hero Section */
+        #hero {
+            min-height: 65vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/184823816/original/82128e9a085eb04ae860372c80bd3ffad22dd34d/design-a-minimalist-colorful-wallpaper.png') center/cover no-repeat;
+            position: relative;
+            margin-top: 60px;
+            overflow: hidden;
+        }
+
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+        }
+
+        .network-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0.3;
+        }
+
+        .network-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: dotPulse 3s ease-in-out infinite;
+        }
+
+        .network-dot:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .network-dot:nth-child(2) { top: 40%; right: 20%; animation-delay: 0.5s; }
+        .network-dot:nth-child(3) { bottom: 30%; left: 30%; animation-delay: 1s; }
+        .network-dot:nth-child(4) { top: 60%; right: 15%; animation-delay: 1.5s; }
+        .network-dot:nth-child(5) { bottom: 20%; right: 35%; animation-delay: 2s; }
+        .network-dot:nth-child(6) { top: 35%; left: 45%; animation-delay: 2.5s; }
+
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.5); opacity: 1; }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+            max-width: 900px;
+            position: relative;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: rgba(48, 48, 49, 0.938);
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            color: rgba(48, 48, 49, 0.938);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease 0.2s;
+            animation-fill-mode: both;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(50, 47, 47, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.4s;
+            animation-fill-mode: both;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.6s;
+            animation-fill-mode: both;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Main Sections */
+        section {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Four Main Boxes */
+        .main-boxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .main-box {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            transition: height 0.3s ease;
+        }
+
+        .main-box:nth-child(1)::before { background: var(--gradient-1); }
+        .main-box:nth-child(2)::before { background: var(--gradient-3); }
+        .main-box:nth-child(3)::before { background: var(--gradient-2); }
+        .main-box:nth-child(4)::before { background: var(--gradient-4); }
+
+        .main-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .main-box:hover::before {
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .box-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .main-box h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .main-box p {
+            color: #666;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            border-radius: 20px;
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover {
+            color: var(--primary);
+        }
+
+        /* Level Cards */
+        .level-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .level-card:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .level-card h3 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-tag {
+            font-size: 1.8rem;
+            color: #2ecc71;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .coming-soon-badge {
+            background: #95a5a6;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: 10px;
+            font-size: 0.85rem;
+        }
+
+        .level-details {
+            margin: 1rem 0;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .level-details strong {
+            color: var(--dark);
+        }
+
+        .highlight-box {
+            background: rgba(74, 172, 254, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 3px solid var(--accent);
+        }
+
+        .enroll-btn {
+            background: var(--gradient-4);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .enroll-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(67, 233, 123, 0.3);
+        }
+
+        .enroll-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        /* Job Section */
+        .job-section {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .job-highlight {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-card h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .info-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-card li {
+            padding: 0.5rem 0;
+            color: #666;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-card li:last-child {
+            border-bottom: none;
+        }
+
+        /* Form Integration */
+        .iframe-container {
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .payment-simulation {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            border: 2px dashed #ffc107;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .payment-btn {
+            background: #ffc107;
+            color: #000;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .payment-btn:hover {
+            background: #ffb300;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 193, 7, 0.3);
+        }
+
+        /* About Section */
+        .about-content {
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: #555;
+        }
+
+        .about-content h3 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            font-size: 1.6rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Stay in Touch */
+        .stay-in-touch {
+            background: var(--gradient-5);
+            color: rgb(0, 0, 0);
+            padding: 4rem 5%;
+            text-align: center;
+            margin: 3rem 0;
+            border-radius: 30px;
+        }
+
+        .stay-in-touch h2 {
+            color: rgb(0, 0, 0);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-info-item:hover {
+            background: rgba(102, 126, 234, 0.05);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            
+            .nav-links {
+                position: fixed;
+                top: 60px;
+                right: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background: rgba(255, 255, 255, 0.98);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 2rem;
+                transition: right 0.3s ease;
+                gap: 0;
+            }
+
+            .nav-links.active { right: 0; }
+            
+            .nav-links li { width: 80%; }
+            
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+                display: block;
+            }
+
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .contact-wrapper { grid-template-columns: 1fr; }
+            .section-title { font-size: 2rem; }
+            .modal-content { margin: 20px; padding: 20px; }
+        }
+    </style>
 </head>
 <body>
-  <!-- Language Selector -->
-  <div class="language-selector">
-    <button onclick="changeLanguage('en')" id="btn-en" class="active">English</button>
-    <button onclick="changeLanguage('zh')" id="btn-zh">简体中文</button>
-  </div>
+    <div class="geometric-bg"></div>
 
-  <!-- Home Page -->
-  <div id="home-page">
-    <!-- Navigation -->
-    <nav>
-      <div class="container">
-        <div class="logo">
-          <div class="logo-circle">CL</div>
-          <span>CodeLab</span>
-        </div>
-        <div class="nav-links">
-          <a href="#home" data-en="Home" data-zh="首页">Home</a>
-          <a href="#donation" data-en="Donate" data-zh="捐赠">Donate</a>
-          <a href="#contact" data-en="Contact Us" data-zh="联系我们">Contact Us</a>
-        </div>
-      </div>
-    </nav>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button onclick="setLanguage('en')" class="active" id="btn-en">English</button>
+        <button onclick="setLanguage('zh')" id="btn-zh">中文</button>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#hero" class="logo">
+                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="50" height="50" fill="url(#logoGradient)" rx="10"/>
+                    <text x="25" y="35" font-size="24" fill="white" text-anchor="middle" font-family="monospace">&lt;/&gt;</text>
+                </svg>
+                <span class="logo-text">The CodeLab</span>
+            </a>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero" class="nav-link active" data-en="Home" data-zh="首页">Home</a></li>
+                <li><a href="#programs" class="nav-link" data-en="Programs" data-zh="课程">Programs</a></li>
+                <li><a href="#about" class="nav-link" data-en="About" data-zh="关于">About</a></li>
+                <li><a href="#contact" class="nav-link" data-en="Contact" data-zh="联系">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-      <h1 data-en="Welcome to CodeLab After School Program" data-zh="欢迎来到CodeLab课后项目">Welcome to CodeLab After School Program</h1>
-      <p data-en="Empowering children through coding, STEM activities, and creative problem-solving in a safe and nurturing environment." data-zh="通过编程、STEM活动和创意解决问题，在安全和培养的环境中赋予孩子们力量。">Empowering children through coding, STEM activities, and creative problem-solving in a safe and nurturing environment.</p>
-      <a href="#enroll-link" class="cta-button" data-en="Learn More" data-zh="了解更多">Learn More</a>
+    <section id="hero">
+        <div class="network-bg">
+            <div class="network-dot"></div>
+            <div class="network-dot"></div>
+            <div class="network-dot"></div>
+            <div class="network-dot"></div>
+            <div class="network-dot"></div>
+            <div class="network-dot"></div>
+        </div>
+        <div class="hero-content">
+            <h1 data-en="Welcome to The CodeLab" data-zh="欢迎来到代码实验室">Welcome to The CodeLab</h1>
+            <p data-en="Empowering young minds through coding education" data-zh="通过编程教育赋能年轻人">Empowering young minds through coding education</p>
+            <div class="hero-badge" data-en="Join us down below" data-zh="欢迎来到我们的课程">Join us down below</div>
+            <p style="margin-bottom: 2rem;">📧 thecodelab.contact@gmail.com</p>
+            <a href="#programs" class="cta-button" data-en="Explore Our Programs" data-zh="探索我们的课程">Explore Our Programs</a>
+        </div>
     </section>
 
-    <!-- Introduction Section -->
-    <section class="introduction">
-      <h2 data-en="About Our Program" data-zh="关于我们的项目">About Our Program</h2>
-      <p data-en="At CodeLab After School Program, we believe every child deserves the opportunity to explore technology, develop computational thinking, and build skills for the digital future. Our comprehensive program combines coding education with creative activities, project-based learning, and character development." data-zh="在CodeLab课后项目中，我们相信每个孩子都应该有机会探索技术、发展计算思维，并为数字未来培养技能。我们的综合项目将编程教育与创意活动、基于项目的学习和品格发展相结合。">At CodeLab After School Program, we believe every child deserves the opportunity to explore technology, develop computational thinking, and build skills for the digital future. Our comprehensive program combines coding education with creative activities, project-based learning, and character development.</p>
-      <p data-en="We provide a structured yet flexible environment where children can learn programming fundamentals, work on exciting tech projects, participate in robotics and electronics activities, and develop important skills like logical thinking, creativity, and teamwork." data-zh="我们提供一个结构化但灵活的环境，孩子们可以学习编程基础知识、参与令人兴奋的技术项目、参加机器人和电子活动，并发展逻辑思维、创造力和团队合作等重要技能。">We provide a structured yet flexible environment where children can learn programming fundamentals, work on exciting tech projects, participate in robotics and electronics activities, and develop important skills like logical thinking, creativity, and teamwork.</p>
-      <p data-en="Our experienced instructors are passionate about technology education and dedicated to creating a positive, inclusive atmosphere where every child feels supported and inspired to innovate." data-zh="我们经验丰富的教师对技术教育充满热情，致力于创造一个积极、包容的氛围，让每个孩子都感到支持并受到创新的启发。">Our experienced instructors are passionate about technology education and dedicated to creating a positive, inclusive atmosphere where every child feels supported and inspired to innovate.</p>
-
-      <!-- Features -->
-      <div class="features">
-        <div class="feature-card">
-          <div class="feature-icon">💻</div>
-          <h3 data-en="Coding & Programming" data-zh="编程与代码">Coding & Programming</h3>
-          <p data-en="Learn Python, Scratch, web development, and more" data-zh="学习Python、Scratch、网页开发等">Learn Python, Scratch, web development, and more</p>
+    <!-- Main Programs Section -->
+    <section id="programs">
+        <h2 class="section-title" data-en="Our Programs & Services" data-zh="我们的课程与服务">Our Programs & Services</h2>
+        <p class="section-subtitle" data-en="Choose the perfect path for your child's coding journey" data-zh="为您的孩子选择完美的编程之旅">Choose the perfect path for your child's coding journey</p>
+        
+        <div class="main-boxes">
+            <div class="main-box" onclick="openModal('afterschool')">
+                <div class="box-icon">💻</div>
+                <h2 data-en="After School Program" data-zh="课后编程课程">After School Program</h2>
+                <p data-en="Comprehensive coding courses from beginner to advanced" data-zh="从初级到高级的全面编程课程">Comprehensive coding courses from beginner to advanced</p>
+            </div>
+            
+            <div class="main-box" onclick="openModal('job')">
+                <div class="box-icon">🎓</div>
+                <h2 data-en="Job/Volunteer" data-zh="工作/志愿者">Job/Volunteer</h2>
+                <p data-en="Join our teaching team and inspire young coders" data-zh="加入我们的教学团队，激励年轻的程序员">Join our teaching team and inspire young coders</p>
+            </div>
+            
+            <div class="main-box" onclick="openModal('enrollment')">
+                <div class="box-icon">📝</div>
+                <h2 data-en="Program Enrollment" data-zh="课程报名">Program Enrollment</h2>
+                <p data-en="Register your child for our coding classes" data-zh="为您的孩子注册我们的编程课程">Register your child for our coding classes</p>
+            </div>
+            
+            <div class="main-box" onclick="openModal('about')">
+                <div class="box-icon">🌟</div>
+                <h2 data-en="About Us" data-zh="关于我们">About Us</h2>
+                <p data-en="Learn about our mission and approach" data-zh="了解我们的使命和方法">Learn about our mission and approach</p>
+            </div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">🤖</div>
-          <h3 data-en="Robotics & Electronics" data-zh="机器人与电子">Robotics & Electronics</h3>
-          <p data-en="Build and program robots, work with Arduino and sensors" data-zh="构建和编程机器人，使用Arduino和传感器">Build and program robots, work with Arduino and sensors</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🎮</div>
-          <h3 data-en="Game Development" data-zh="游戏开发">Game Development</h3>
-          <p data-en="Create your own games and interactive experiences" data-zh="创建自己的游戏和互动体验">Create your own games and interactive experiences</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔬</div>
-          <h3 data-en="STEM Projects" data-zh="STEM项目">STEM Projects</h3>
-          <p data-en="Hands-on science and technology experiments" data-zh="实践科学和技术实验">Hands-on science and technology experiments</p>
-        </div>
-      </div>
     </section>
 
-    <!-- Enrollment Link Section -->
-    <section class="enrollment-section" id="enroll-link">
-      <h2 data-en="Ready to Enroll Your Child?" data-zh="准备好为您的孩子注册了吗？">Ready to Enroll Your Child?</h2>
-      <p data-en="Join our community of young innovators and tech enthusiasts!" data-zh="加入我们年轻创新者和技术爱好者的社区！">Join our community of young innovators and tech enthusiasts!</p>
-      <a href="#" class="enroll-button" onclick="showEnrollmentPage(); return false;" data-en="Enroll Now" data-zh="立即注册">Enroll Now</a>
+    <!-- After School Program Modal -->
+    <div id="afterschool-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('afterschool')">&times;</span>
+            <h2 data-en="After School Program - Course Levels" data-zh="课后编程课程 - 课程级别">After School Program - Course Levels</h2>
+            
+            <div class="level-card">
+                <h3>Level 1: Code Explorer <span class="price-tag">$150/month</span></h3>
+                <p data-en="Ages 7-12 (Year 1 - Year 6)" data-zh="年龄 7-12岁（小学一年级至六年级）">Ages 7-12 (Year 1 - Year 6)</p>
+                <div class="level-details">
+                    <p><strong data-en="Focus:" data-zh="重点：">Focus:</strong> <span data-en="Complete Scratch beginner - building computational thinking" data-zh="从零开始学习Scratch - 培养计算思维">Complete Scratch beginner - building computational thinking</span></p>
+                    <p><strong data-en="Tools:" data-zh="工具：">Tools:</strong> Scratch</p>
+                    <p><strong data-en="Projects:" data-zh="项目：">Projects:</strong> <span data-en="Simple games, animations, stories" data-zh="简单游戏、动画、故事">Simple games, animations, stories</span></p>
+                    <p><strong data-en="Goal:" data-zh="目标：">Goal:</strong> <span data-en="Spark interest through visual programming" data-zh="通过视觉化编程激发兴趣">Spark interest through visual programming</span></p>
+                </div>
+                <div class="highlight-box">
+                    <p data-en="✨ Recommended for kids with basic computer skills (knows how to left-click, right-click, and basic navigation)" data-zh="✨ 推荐给有基本电脑技能的孩子（会左键、右键点击和基本操作）">✨ Recommended for kids with basic computer skills (knows how to left-click, right-click, and basic navigation)</p>
+                </div>
+                <button class="enroll-btn" onclick="closeModal('afterschool'); openModal('enrollment')" data-en="Enroll Now" data-zh="立即报名">Enroll Now</button>
+            </div>
+
+            <div class="level-card">
+                <h3>Level 2: Code Transition <span class="coming-soon-badge" data-en="COMING SOON" data-zh="即将推出">COMING SOON</span></h3>
+                <p data-en="Ages 8-13 (Year 2 - Form 1)" data-zh="年龄 8-13岁（小学二年级至初中一年级）">Ages 8-13 (Year 2 - Form 1)</p>
+                <div class="level-details">
+                    <p><strong data-en="Focus:" data-zh="重点：">Focus:</strong> <span data-en="Advanced Scratch + Python syntax fundamentals" data-zh="进阶Scratch + Python语法基础">Advanced Scratch + Python syntax fundamentals</span></p>
+                    <p><strong data-en="Tools:" data-zh="工具：">Tools:</strong> Scratch → Python (Thonny/Trinket)</p>
+                    <p><strong data-en="Content:" data-zh="内容：">Content:</strong> <span data-en="Complex Scratch games, Python basics, translating block logic to text" data-zh="复杂的Scratch游戏，Python基础，将块逻辑转换为文本">Complex Scratch games, Python basics, translating block logic to text</span></p>
+                </div>
+                <button class="enroll-btn" disabled data-en="Coming Soon" data-zh="即将推出">Coming Soon</button>
+            </div>
+
+            <div class="level-card">
+                <h3>Level 3: Code Foundations <span class="coming-soon-badge" data-en="COMING SOON" data-zh="即将推出">COMING SOON</span></h3>
+                <p data-en="Ages 9-14 (Year 3 - Form 2)" data-zh="年龄 9-14岁（小学三年级至初中二年级）">Ages 9-14 (Year 3 - Form 2)</p>
+                <div class="level-details">
+                    <p><strong data-en="Focus:" data-zh="重点：">Focus:</strong> <span data-en="Real text-based programming fundamentals" data-zh="真正的文本编程基础">Real text-based programming fundamentals</span></p>
+                    <p><strong data-en="Tools:" data-zh="工具：">Tools:</strong> Python + PyGame</p>
+                    <p><strong data-en="Content:" data-zh="内容：">Content:</strong> <span data-en="Variables, conditionals, loops, functions, simple game development" data-zh="变量、条件语句、循环、函数、简单游戏开发">Variables, conditionals, loops, functions, simple game development</span></p>
+                </div>
+                <button class="enroll-btn" disabled data-en="Coming Soon" data-zh="即将推出">Coming Soon</button>
+            </div>
+
+            <div class="level-card">
+                <h3>Level 4: CS Principles <span class="coming-soon-badge" data-en="COMING SOON" data-zh="即将推出">COMING SOON</span></h3>
+                <p data-en="Ages 10-15 (Year 4 - Form 3)" data-zh="年龄 10-15岁（小学四年级至初中三年级）">Ages 10-15 (Year 4 - Form 3)</p>
+                <div class="level-details">
+                    <p><strong data-en="Focus:" data-zh="重点：">Focus:</strong> <span data-en="Advanced programming concepts + second language" data-zh="进阶编程概念 + 第二门编程语言">Advanced programming concepts + second language</span></p>
+                    <p><strong data-en="Tools:" data-zh="工具：">Tools:</strong> Python → Java</p>
+                    <p><strong data-en="Content:" data-zh="内容：">Content:</strong> <span data-en="OOP, algorithms, data structures, software engineering concepts" data-zh="面向对象编程、算法、数据结构、软件工程概念">OOP, algorithms, data structures, software engineering concepts</span></p>
+                </div>
+                <button class="enroll-btn" disabled data-en="Coming Soon" data-zh="即将推出">Coming Soon</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job/Volunteer Modal -->
+    <div id="job-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('job')">&times;</span>
+            <h2 data-en="Join Our Teaching Team" data-zh="加入我们的教学团队">Join Our Teaching Team</h2>
+            
+            <div class="job-highlight">
+                <h3 data-en="📍 Based in Johor Bahru, Malaysia" data-zh="📍 位于马来西亚新山">📍 Based in Johor Bahru, Malaysia</h3>
+                <p data-en="We encourage middle school, high school, and college students to join as an extracurricular activity to further their career path in computer science!" data-zh="我们鼓励初中生、高中生和大学生加入，作为课外活动来发展计算机科学的职业道路！">We encourage middle school, high school, and college students to join as an extracurricular activity to further their career path in computer science!</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4 data-en="Position Details" data-zh="职位详情">Position Details</h4>
+                    <ul>
+                        <li data-en="📍 Teaching Assistant, Coding Mentor, Classroom Support" data-zh="📍 助教、编程导师、课堂支持">📍 Teaching Assistant, Coding Mentor, Classroom Support</li>
+                        <li data-en="🎯 Open to Middle School, High School & College Students" data-zh="🎯 开放给初中生、高中生和大学生">🎯 Open to Middle School, High School & College Students</li>
+                        <li data-en="💰 $10-16/hour (based on experience)" data-zh="💰 $10-16/小时（根据经验）">💰 $10-16/hour (based on experience)</li>
+                        <li data-en="🗓️ Seasonal (2-month cycles)" data-zh="🗓️ 季节性（2个月周期）">🗓️ Seasonal (2-month cycles)</li>
+                        <li data-en="⏰ Part-time, flexible schedule" data-zh="⏰ 兼职，灵活时间">⏰ Part-time, flexible schedule</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h4 data-en="What You'll Do" data-zh="你将做什么">What You'll Do</h4>
+                    <ul>
+                        <li data-en="Assist in teaching Scratch, Python, and Java" data-zh="协助教授Scratch、Python和Java">Assist in teaching Scratch, Python, and Java</li>
+                        <li data-en="Help students with coding projects" data-zh="帮助学生完成编程项目">Help students with coding projects</li>
+                        <li data-en="Support classroom management" data-zh="支持课堂管理">Support classroom management</li>
+                        <li data-en="Participate in curriculum development" data-zh="参与课程开发">Participate in curriculum development</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h4 data-en="Perfect For" data-zh="最适合">Perfect For</h4>
+                    <ul>
+                        <li data-en="Students who love coding and teaching" data-zh="热爱编程和教学的学生">Students who love coding and teaching</li>
+                        <li data-en="Enjoy working with kids ages 7-15" data-zh="喜欢与7-15岁的孩子一起工作">Enjoy working with kids ages 7-15</li>
+                        <li data-en="Want to build resume and gain references" data-zh="想要丰富简历并获得推荐">Want to build resume and gain references</li>
+                        <li data-en="Looking for flexible, seasonal work" data-zh="寻找灵活的季节性工作">Looking for flexible, seasonal work</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h4 data-en="Requirements" data-zh="要求">Requirements</h4>
+                    <ul>
+                        <li data-en="Basic coding knowledge (any language)" data-zh="基础编程知识（任何语言）">Basic coding knowledge (any language)</li>
+                        <li data-en="Patience and enthusiasm for beginners" data-zh="对初学者有耐心和热情">Patience and enthusiasm for beginners</li>
+                        <li data-en="Good communication skills" data-zh="良好的沟通技巧">Good communication skills</li>
+                        <li data-en="2-month commitment" data-zh="2个月的承诺">2-month commitment</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.2em; margin: 2rem 0; font-weight: 600;" data-en="Apply now and help shape the next generation of coders!" data-zh="立即申请，帮助塑造下一代程序员！">Apply now and help shape the next generation of coders!</p>
+
+            <div class="iframe-container">
+                <iframe data-tally-src="https://tally.so/embed/wQPrp8?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0" title="Job Application"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enrollment Modal -->
+    <div id="enrollment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('enrollment')">&times;</span>
+            <h2 data-en="Program Enrollment - Level 1: Code Explorer" data-zh="课程报名 - 第一级：代码探索者">Program Enrollment - Level 1: Code Explorer</h2>
+            <p style="text-align: center; font-size: 1.2rem; color: #2ecc71; font-weight: 600;" data-en="$150/month - Now enrolling for our first cohort!" data-zh="$150/月 - 现正招收首批学员！">$150/month - Now enrolling for our first cohort!</p>
+            
+            <div class="iframe-container">
+                <iframe data-tally-src="https://tally.so/embed/mBM1A1?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="600" frameborder="0" marginheight="0" marginwidth="0" title="Enrollment Form"></iframe>
+            </div>
+
+            <div class="payment-simulation">
+                <h3 data-en="💳 Payment Simulation" data-zh="💳 支付模拟">💳 Payment Simulation</h3>
+                <p data-en="(Demo mode - actual payment integration coming soon)" data-zh="（演示模式 - 实际支付功能即将推出）">(Demo mode - actual payment integration coming soon)</p>
+                <button class="payment-btn" onclick="simulatePayment()" data-en="Complete Payment with PayPal" data-zh="使用PayPal完成支付">Complete Payment with PayPal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Us Modal -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('about')">&times;</span>
+            <h2 data-en="About The CodeLab" data-zh="关于代码实验室">About The CodeLab</h2>
+            
+            <div class="about-content">
+                <h3 data-en="Why Choose The CodeLab?" data-zh="为什么选择代码实验室？">Why Choose The CodeLab?</h3>
+                <p data-en="In today's rapidly evolving world, AI and technology are reshaping every aspect of our lives. From the apps we use daily to the careers of tomorrow, coding has become an essential skill—not just for programmers, but for everyone who wants to understand and thrive in our digital future." data-zh="在当今快速发展的世界中，人工智能和技术正在重塑我们生活的方方面面。从我们日常使用的应用程序到未来的职业，编程已成为一项必备技能——不仅对程序员如此，对所有想要理解并在数字未来中茁壮成长的人来说也是如此。">In today's rapidly evolving world, AI and technology are reshaping every aspect of our lives. From the apps we use daily to the careers of tomorrow, coding has become an essential skill—not just for programmers, but for everyone who wants to understand and thrive in our digital future.</p>
+
+                <h3 data-en="Our Approach: Happy Learning Through Games" data-zh="我们的方法：通过游戏快乐学习">Our Approach: Happy Learning Through Games</h3>
+                <p data-en="At The CodeLab, we believe learning should be joyful, not stressful. We don't force kids into rigid learning structures. Instead, we use games, creative projects, and hands-on activities to make coding fun and engaging. When children enjoy what they're learning, they naturally become more curious, creative, and confident problem-solvers." data-zh="在代码实验室，我们相信学习应该是快乐的，而不是压力重重的。我们不强迫孩子遵循僵化的学习结构。相反，我们使用游戏、创意项目和实践活动，让编程变得有趣和吸引人。当孩子们享受他们所学的内容时，他们自然会变得更加好奇、有创造力和自信的问题解决者。">At The CodeLab, we believe learning should be joyful, not stressful. We don't force kids into rigid learning structures. Instead, we use games, creative projects, and hands-on activities to make coding fun and engaging. When children enjoy what they're learning, they naturally become more curious, creative, and confident problem-solvers.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎮</div>
+                        <h4 data-en="Game-Based Learning" data-zh="游戏化学习">Game-Based Learning</h4>
+                        <p data-en="No pressure, just passion. Mistakes become learning opportunities." data-zh="没有压力，只有热情。错误成为学习的机会。">No pressure, just passion. Mistakes become learning opportunities.</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">🚀</div>
+                        <h4 data-en="Career Foundations" data-zh="职业基础">Career Foundations</h4>
+                        <p data-en="Structured pathway mirroring college-level CS education." data-zh="结构化的路径，与大学水平的CS教育相对应。">Structured pathway mirroring college-level CS education.</p>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">👩‍💻</div>
+                        <h4 data-en="Women in STEM" data-zh="女性STEM">Women in STEM</h4>
+                        <p data-en="Actively encouraging girls to join and lead in tech." data-zh="积极鼓励女孩加入并在技术领域领导。">Actively encouraging girls to join and lead in tech.</p>
+                    </div>
+                </div>
+
+                <h3 data-en="Empowering Women in STEM" data-zh="赋予女性STEM力量">Empowering Women in STEM</h3>
+                <p data-en="We actively encourage more girls and young women to join our programs. Studies consistently show that diverse teams—especially those with strong female representation—produce more innovative solutions and better outcomes. By inspiring young women to pursue coding early, we're not just helping individuals; we're contributing to a more inclusive and creative tech industry." data-zh="我们积极鼓励更多女孩和年轻女性加入我们的课程。研究一致表明，多元化的团队——特别是那些有强大女性代表的团队——能产生更多创新的解决方案和更好的结果。通过鼓励年轻女性早期追求编程，我们不仅仅是在帮助个人；我们正在为一个更具包容性和创造力的科技行业做出贡献。">We actively encourage more girls and young women to join our programs. Studies consistently show that diverse teams—especially those with strong female representation—produce more innovative solutions and better outcomes. By inspiring young women to pursue coding early, we're not just helping individuals; we're contributing to a more inclusive and creative tech industry.</p>
+
+                <div class="highlight-box">
+                    <p data-en="💡 The future of technology needs diverse voices. We're committed to making coding accessible and welcoming to all students, regardless of gender or background." data-zh="💡 技术的未来需要多元化的声音。我们致力于让所有学生都能接触和欢迎编程，无论性别或背景如何。">💡 The future of technology needs diverse voices. We're committed to making coding accessible and welcoming to all students, regardless of gender or background.</p>
+                </div>
+
+                <h3 data-en="Join Us in Shaping Tomorrow's Innovators" data-zh="加入我们，塑造明天的创新者">Join Us in Shaping Tomorrow's Innovators</h3>
+                <p data-en="Whether your child is just curious about how games work or dreams of becoming a software engineer, The CodeLab provides the foundation, support, and inspiration they need to succeed." data-zh="无论您的孩子只是对游戏如何运作感到好奇，还是梦想成为软件工程师，代码实验室都能提供他们成功所需的基础、支持和灵感。">Whether your child is just curious about how games work or dreams of becoming a software engineer, The CodeLab provides the foundation, support, and inspiration they need to succeed.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section (on main page) -->
+    <section id="about">
+        <h2 class="section-title" data-en="Why The CodeLab?" data-zh="为什么选择代码实验室？">Why The CodeLab?</h2>
+        <p class="section-subtitle" data-en="Building the next generation of innovators through joyful, game-based learning" data-zh="通过快乐的游戏化学习培养下一代创新者">Building the next generation of innovators through joyful, game-based learning</p>
+        
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">🧠</div>
+                <h4 data-en="AI & Tech Skills" data-zh="AI与技术技能">AI & Tech Skills</h4>
+                <p data-en="Prepare for tomorrow's world where coding and AI literacy are essential." data-zh="为明天的世界做好准备，编程和AI素养至关重要。">Prepare for tomorrow's world where coding and AI literacy are essential.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <h4 data-en="Creative Projects" data-zh="创意项目">Creative Projects</h4>
+                <p data-en="Learn by building games, animations, and stories—not boring exercises." data-zh="通过构建游戏、动画和故事来学习——而不是枯燥的练习。">Learn by building games, animations, and stories—not boring exercises.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🌈</div>
+                <h4 data-en="Inclusive Environment" data-zh="包容性环境">Inclusive Environment</h4>
+                <p data-en="Welcoming all students, with special encouragement for women in STEM." data-zh="欢迎所有学生，特别鼓励女性参与STEM。">Welcoming all students, with special encouragement for women in STEM.</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">📈</div>
+                <h4 data-en="Progressive Curriculum" data-zh="渐进式课程">Progressive Curriculum</h4>
+                <p data-en="From Scratch to Java—a complete pathway aligned with college CS courses." data-zh="从Scratch到Java——与大学CS课程对齐的完整路径。">From Scratch to Java—a complete pathway aligned with college CS courses.</p>
+            </div>
+        </div>
     </section>
 
-    <!-- Stay in Touch Section -->
-    <section class="stay-in-touch">
-      <h2 data-en="Stay in Touch" data-zh="保持联系">Stay in Touch</h2>
-      <p data-en="Subscribe to receive updates, upcoming events, and program news delivered to your inbox." data-zh="订阅以接收更新、即将举行的活动和项目新闻。">Subscribe to receive updates, upcoming events, and program news delivered to your inbox.</p>
-      <form class="email-form" onsubmit="subscribeEmail(event)">
-        <input type="email" id="subscribe-email" data-placeholder-en="Enter your email address" data-placeholder-zh="输入您的电子邮件地址" placeholder="Enter your email address" required>
-        <button type="submit" data-en="Subscribe" data-zh="订阅">Subscribe</button>
-      </form>
-      <div class="success-message" id="success-message">
-        <span data-en="✓ Thank you for subscribing! We'll keep you updated." data-zh="✓ 感谢您的订阅！我们会及时向您更新。">✓ Thank you for subscribing! We'll keep you updated.</span>
-      </div>
+    <!-- Stay In Touch Section -->
+    <div class="stay-in-touch">
+        <h2 data-en="Stay In Touch" data-zh="保持联系">Stay In Touch</h2>
+        <p data-en="Subscribe to receive updates about our programs, events, and news!" data-zh="订阅以接收我们的课程、活动和新闻更新！">Subscribe to receive updates about our programs, events, and news!</p>
+        <p data-en="Stay informed as a parent about all the exciting things happening at The CodeLab." data-zh="作为家长，及时了解代码实验室的所有精彩活动。">Stay informed as a parent about all the exciting things happening at The CodeLab.</p>
+        
+        <div class="iframe-container" style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            <iframe data-tally-src="https://tally.so/embed/wdBANo?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" title="Newsletter"></iframe>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title" data-en="Contact Us" data-zh="联系我们">Contact Us</h2>
+        <p class="section-subtitle" data-en="Have questions? We'd love to hear from you!" data-zh="有疑问吗？我们很乐意听取您的意见！">Have questions? We'd love to hear from you!</p>
+        
+        <div class="contact-wrapper">
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 2rem;" data-en="Get In Touch" data-zh="联系方式">Get In Touch</h3>
+                
+                <div class="contact-info-item">
+                    <div class="contact-icon">📧</div>
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 0.3rem;" data-en="Email" data-zh="电子邮件">Email</h4>
+                        <p style="color: #666;">thecodelab.contact@gmail.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 0.3rem;" data-en="Location" data-zh="位置">Location</h4>
+                        <p style="color: #666;" data-en="Johor Bahru, Malaysia" data-zh="马来西亚新山">Johor Bahru, Malaysia</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">🎯</div>
+                    <div>
+                        <h4 style="color: var(--primary); margin-bottom: 0.3rem;" data-en="Age Range" data-zh="年龄范围">Age Range</h4>
+                        <p style="color: #666;" data-en="Year 1 - Form 3 (Ages 7-15)" data-zh="小学一年级至初中三年级（7-15岁）">Year 1 - Form 3 (Ages 7-15)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 style="color: var(--primary); margin-bottom: 2rem;" data-en="Quick Links" data-zh="快速链接">Quick Links</h3>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <button class="enroll-btn" onclick="openModal('enrollment')" data-en="Enroll Your Child" data-zh="为您的孩子报名">Enroll Your Child</button>
+                    <button class="enroll-btn" onclick="openModal('job')" style="background: var(--gradient-3);" data-en="Join Our Team" data-zh="加入我们的团队">Join Our Team</button>
+                    <button class="enroll-btn" onclick="openModal('afterschool')" style="background: var(--gradient-2);" data-en="View Course Levels" data-zh="查看课程级别">View Course Levels</button>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact">
-      <h3 data-en="Contact Us" data-zh="联系我们">Contact Us</h3>
-      <p><span data-en="📧 Email: info@codelabprogram.com" data-zh="📧 邮箱：info@codelabprogram.com">📧 Email: info@codelabprogram.com</span></p>
-      <p><span data-en="📞 Phone: (555) 123-4567" data-zh="📞 电话：(555) 123-4567">📞 Phone: (555) 123-4567</span></p>
-      <p><span data-en="📍 Address: 123 Education Lane, Colorado Springs, CO 80903" data-zh="📍 地址：123 Education Lane, Colorado Springs, CO 80903">📍 Address: 123 Education Lane, Colorado Springs, CO 80903</span></p>
-      <p style="margin-top: 20px; opacity: 0.7;"><span data-en="© 2025 CodeLab After School Program. All rights reserved." data-zh="© 2025 CodeLab课后项目。版权所有。">© 2025 CodeLab After School Program. All rights reserved.</span></p>
+    <footer>
+        <div class="footer-content">
+            <div class="copyright">
+                <p data-en="© 2025 The CodeLab. Empowering the next generation of coders in Johor Bahru, Malaysia." data-zh="© 2025 代码实验室。赋能马来西亚新山的下一代程序员。">© 2025 The CodeLab. Empowering the next generation of coders in Johor Bahru, Malaysia.</p>
+            </div>
+        </div>
     </footer>
-  </div>
 
-  <!-- Enrollment Page -->
-  <div id="enrollment-page" class="enrollment-page">
-    <nav>
-      <div class="container">
-        <div class="logo">
-          <div class="logo-circle">CL</div>
-          <span>CodeLab</span>
-        </div>
-      </div>
-    </nav>
+    <script>
+        // Language switching
+        let currentLang = 'en';
 
-    <div class="form-card">
-      <a href="#" class="back-link" onclick="showHomePage(); return false;" data-en="← Back to Home" data-zh="← 返回首页">← Back to Home</a>
-      <h2 data-en="Enrollment Form" data-zh="注册表单">Enrollment Form</h2>
-      <p data-en="Please fill out the form below to enroll your child in our after school program." data-zh="请填写以下表格，为您的孩子注册我们的课后项目。">Please fill out the form below to enroll your child in our after school program.</p>
-      
-      <form onsubmit="handleEnrollment(event)">
-        <div class="form-group">
-          <label data-en="Child's Full Name *" data-zh="孩子全名 *">Child's Full Name *</label>
-          <input type="text" name="childName" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Date of Birth *" data-zh="出生日期 *">Date of Birth *</label>
-          <input type="date" name="dob" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Grade/Standard *" data-zh="年级 *">Grade/Standard *</label>
-          <input type="text" name="grade" data-placeholder-en="e.g., 3rd Grade" data-placeholder-zh="例如：三年级" placeholder="e.g., 3rd Grade" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="School Name *" data-zh="学校名称 *">School Name *</label>
-          <input type="text" name="school" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Parent/Guardian Name *" data-zh="家长/监护人姓名 *">Parent/Guardian Name *</label>
-          <input type="text" name="parentName" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Email Address *" data-zh="电子邮件地址 *">Email Address *</label>
-          <input type="email" name="email" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Phone Number *" data-zh="电话号码 *">Phone Number *</label>
-          <input type="tel" name="phone" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Emergency Contact Name *" data-zh="紧急联系人姓名 *">Emergency Contact Name *</label>
-          <input type="text" name="emergencyName" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Emergency Contact Phone *" data-zh="紧急联系人电话 *">Emergency Contact Phone *</label>
-          <input type="tel" name="emergencyPhone" required>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Any Allergies or Medical Conditions?" data-zh="有任何过敏或医疗状况吗？">Any Allergies or Medical Conditions?</label>
-          <textarea name="medical" rows="3" data-placeholder-en="Please list any allergies, medical conditions, or special needs" data-placeholder-zh="请列出任何过敏、医疗状况或特殊需求" placeholder="Please list any allergies, medical conditions, or special needs"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label data-en="Preferred Start Date *" data-zh="首选开始日期 *">Preferred Start Date *</label>
-          <input type="date" name="startDate" required>
-        </div>
-
-        <button type="submit" class="submit-button" data-en="Submit Enrollment" data-zh="提交注册">Submit Enrollment</button>
-      </form>
-
-      <div style="margin-top: 40px; padding: 20px; background: #f3f4f6; border-radius: 10px;">
-        <h3 style="margin-bottom: 15px;" data-en="Payment Information" data-zh="付款信息">Payment Information</h3>
-        <p style="color: #6b7280; margin-bottom: 15px;" data-en="After submitting your enrollment, you'll receive payment instructions via email. We accept various payment methods including PayPal, credit cards, and bank transfers." data-zh="提交注册后，您将通过电子邮件收到付款说明。我们接受各种付款方式，包括PayPal、信用卡和银行转账。">After submitting your enrollment, you'll receive payment instructions via email. We accept various payment methods including PayPal, credit cards, and bank transfers.</p>
-        <p style="color: #6b7280; font-size: 14px;"><strong data-en="Monthly Fee:" data-zh="月费：">Monthly Fee:</strong> <span data-en="$250/month" data-zh="250美元/月">$250/month</span> | <strong data-en="Registration Fee:" data-zh="注册费：">Registration Fee:</strong> <span data-en="$50 (one-time)" data-zh="50美元（一次性）">$50 (one-time)</span></p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Store subscribed emails and enrollments
-    let subscribedEmails = [];
-    let enrollments = [];
-    let currentLanguage = 'en';
-
-    // Language translations
-    function changeLanguage(lang) {
-      currentLanguage = lang;
-      
-      // Update button states
-      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-      document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
-      
-      // Update all elements with data-en and data-zh attributes
-      document.querySelectorAll('[data-' + lang + ']').forEach(element => {
-        const text = element.getAttribute('data-' + lang);
-        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-          element.placeholder = element.getAttribute('data-placeholder-' + lang) || text;
-        } else {
-          element.textContent = text;
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute('data-' + lang);
+            });
+            
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-zh').classList.toggle('active', lang === 'zh');
         }
-      });
-    }
 
-    function subscribeEmail(event) {
-      event.preventDefault();
-      const email = document.getElementById('subscribe-email').value;
-      subscribedEmails.push({
-        email: email,
-        date: new Date().toISOString()
-      });
-      document.getElementById('success-message').style.display = 'block';
-      document.getElementById('subscribe-email').value = '';
-      setTimeout(() => {
-        document.getElementById('success-message').style.display = 'none';
-      }, 5000);
-    }
-
-    function showEnrollmentPage() {
-      document.getElementById('home-page').style.display = 'none';
-      document.getElementById('enrollment-page').classList.add('active');
-      window.scrollTo(0, 0);
-    }
-
-    function showHomePage() {
-      document.getElementById('home-page').style.display = 'block';
-      document.getElementById('enrollment-page').classList.remove('active');
-      window.scrollTo(0, 0);
-    }
-
-    function handleEnrollment(event) {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const enrollment = {};
-      for (let [key, value] of formData.entries()) {
-        enrollment[key] = value;
-      }
-      enrollment.submittedAt = new Date().toISOString();
-      enrollments.push(enrollment);
-      
-      const message = currentLanguage === 'en' 
-        ? 'Thank you for enrolling! We have received your application and will contact you within 24 hours with payment instructions and next steps.'
-        : '感谢您的注册！我们已收到您的申请，将在24小时内与您联系，提供付款说明和下一步步骤。';
-      
-      alert(message);
-      event.target.reset();
-      showHomePage();
-    }
-
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href !== '#' && !href.includes('enroll-link')) {
-          e.preventDefault();
-          const target = document.querySelector(href);
-          if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-          }
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
         }
-      });
-    });
-  </script>
+
+        // Modal functions
+        function openModal(modalName) {
+            document.getElementById(modalName + '-modal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modalName) {
+            document.getElementById(modalName + '-modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Payment simulation
+        function simulatePayment() {
+            const messages = {
+                en: '✅ Payment successful! Thank you for enrolling in Level 1: Code Explorer.\n\nYour enrollment form has been submitted. We will contact you shortly with class schedule and next steps.\n\n(This is a simulation - actual payment integration coming soon)',
+                zh: '✅ 支付成功！感谢您报名第一级：代码探索者。\n\n您的报名表已提交。我们将很快与您联系，告知课程时间表和后续步骤。\n\n（这是模拟演示 - 实际支付功能即将推出）'
+            };
+            alert(messages[currentLang]);
+        }
+
+        // Load Tally embeds
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://tally.so/widgets/embed.js';
+            script.async = true;
+            document.body.appendChild(script);
+        })();
+
+        // Smooth scrolling
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    const href = link.getAttribute('href');
+                    if (href.startsWith('#')) {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        const menuToggle = document.querySelector('.menu-toggle');
+                        const navLinksContainer = document.querySelector('.nav-links');
+                        menuToggle.classList.remove('active');
+                        navLinksContainer.classList.remove('active');
+                    }
+                });
+            });
+
+            // Active navigation highlighting
+            const sections = document.querySelectorAll('section');
+            const menuLinks = document.querySelectorAll('.nav-link');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.scrollY >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                menuLinks.forEach(link => {
+                    link.classList.remove('active');
+                    const href = link.getAttribute('href');
+                    if (href && href.slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Header scroll effect
+            const header = document.querySelector('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.style.background = 'rgba(255, 255, 255, 0.98)';
+                    header.style.boxShadow = '0 2px 30px rgba(0, 0, 0, 0.1)';
+                } else {
+                    header.style.background = 'rgba(255, 255, 255, 0.95)';
+                    header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+                }
+            });
+
+            // Menu toggle active state
+            const menuToggle = document.querySelector('.menu-toggle');
+            menuToggle.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
