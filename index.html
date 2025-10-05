@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The CodeLab - Kids Coding Education</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">    <style>
         * {
             margin: 0;
             padding: 0;
@@ -27,7 +27,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Product Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: var(--dark);
             background: var(--light);
@@ -116,15 +116,35 @@
             height: 45px;
         }
 
+        .logo-image {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo-image {
+            transform: scale(1.05);
+        }
+
         .logo-text {
             font-size: 1.8rem;
-            font-weight: bold;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-family: "Poppins", sans-serif;
+            font-weight: 400;
+            font-family: "Product Sans", Arial, sans-serif;
+            letter-spacing: -0.5px;
+            white-space: nowrap;
         }
+
+        .logo-text span {
+            display: inline-block;
+            margin-right: -2px;
+        }
+
+        .the { color: #4285F4; } /* Blue */
+        .c { color: #EA4335; }   /* Red */
+        .o { color: #FBBC04; }   /* Yellow */
+        .d { color: #34A853; }   /* Green */
+        .e { color: #EA4335; }   /* Red */
+        .lab { color: #8E44AD; } /* Purple */
 
         .nav-links {
             display: flex;
@@ -227,29 +247,16 @@
 
         .hero-content h1 {
             font-size: 3.5rem;
-            color: rgba(48, 48, 49, 0.938);
+            color: #555;
             margin-bottom: 1rem;
             animation: fadeInUp 1s ease;
         }
 
         .hero-content p {
             font-size: 1.3rem;
-            color: rgba(48, 48, 49, 0.938);
+            color: #555;
             margin-bottom: 1.5rem;
             animation: fadeInUp 1s ease 0.2s;
-            animation-fill-mode: both;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            background: rgba(50, 47, 47, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 0.8rem 1.5rem;
-            border-radius: 30px;
-            color: white;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            animation: fadeInUp 1s ease 0.4s;
             animation-fill-mode: both;
         }
 
@@ -257,7 +264,7 @@
             display: inline-block;
             padding: 1rem 2.5rem;
             background: white;
-            color: var(--primary);
+            color: #555;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
@@ -729,17 +736,10 @@
     <header>
         <nav>
             <a href="#hero" class="logo">
-                <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <rect width="50" height="50" fill="url(#logoGradient)" rx="10"/>
-                    <text x="25" y="35" font-size="24" fill="white" text-anchor="middle" font-family="monospace">&lt;/&gt;</text>
-                </svg>
-                <span class="logo-text">The CodeLab</span>
+                <img src="https://i.imgur.com/fwYJ4xz.png" alt="The CodeLab Logo" class="logo-image">
+                <span class="logo-text">
+                    <span class="the">The </span><span class="code"><span class="c">C</span><span class="o">o</span><span class="d">d</span><span class="e">e</span></span><span class="lab">Lab</span>
+                </span>
             </a>
             <div class="menu-toggle" onclick="toggleMenu()">
                 <span></span>
@@ -766,10 +766,9 @@
             <div class="network-dot"></div>
         </div>
         <div class="hero-content">
-            <h1 data-en="Welcome to The CodeLab" data-zh="欢迎来到代码实验室">Welcome to The CodeLab</h1>
+            <h1 data-en="The CodeLab" data-zh="The CodeLab">The CodeLab</h1>
             <p data-en="Empowering young minds through coding education" data-zh="通过编程教育赋能年轻人">Empowering young minds through coding education</p>
-            <div class="hero-badge" data-en="Join us down below" data-zh="欢迎来到我们的课程">Join us down below</div>
-            <p style="margin-bottom: 2rem;">📧 thecodelab.contact@gmail.com</p>
+            <p style="margin-bottom: 2rem;"> </p>
             <a href="#programs" class="cta-button" data-en="Explore Our Programs" data-zh="探索我们的课程">Explore Our Programs</a>
         </div>
     </section>
@@ -947,14 +946,14 @@
     <div id="about-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('about')">&times;</span>
-            <h2 data-en="About The CodeLab" data-zh="关于代码实验室">About The CodeLab</h2>
+            <h2 data-en="About TheCodeLab" data-zh="关于TheCodeLab">About The CodeLab</h2>
             
             <div class="about-content">
-                <h3 data-en="Why Choose The CodeLab?" data-zh="为什么选择代码实验室？">Why Choose The CodeLab?</h3>
+                <h3 data-en="Why Choose The CodeLab?" data-zh="为什么选择TheCodeLab？">Why Choose The CodeLab?</h3>
                 <p data-en="In today's rapidly evolving world, AI and technology are reshaping every aspect of our lives. From the apps we use daily to the careers of tomorrow, coding has become an essential skill—not just for programmers, but for everyone who wants to understand and thrive in our digital future." data-zh="在当今快速发展的世界中，人工智能和技术正在重塑我们生活的方方面面。从我们日常使用的应用程序到未来的职业，编程已成为一项必备技能——不仅对程序员如此，对所有想要理解并在数字未来中茁壮成长的人来说也是如此。">In today's rapidly evolving world, AI and technology are reshaping every aspect of our lives. From the apps we use daily to the careers of tomorrow, coding has become an essential skill—not just for programmers, but for everyone who wants to understand and thrive in our digital future.</p>
 
                 <h3 data-en="Our Approach: Happy Learning Through Games" data-zh="我们的方法：通过游戏快乐学习">Our Approach: Happy Learning Through Games</h3>
-                <p data-en="At The CodeLab, we believe learning should be joyful, not stressful. We don't force kids into rigid learning structures. Instead, we use games, creative projects, and hands-on activities to make coding fun and engaging. When children enjoy what they're learning, they naturally become more curious, creative, and confident problem-solvers." data-zh="在代码实验室，我们相信学习应该是快乐的，而不是压力重重的。我们不强迫孩子遵循僵化的学习结构。相反，我们使用游戏、创意项目和实践活动，让编程变得有趣和吸引人。当孩子们享受他们所学的内容时，他们自然会变得更加好奇、有创造力和自信的问题解决者。">At The CodeLab, we believe learning should be joyful, not stressful. We don't force kids into rigid learning structures. Instead, we use games, creative projects, and hands-on activities to make coding fun and engaging. When children enjoy what they're learning, they naturally become more curious, creative, and confident problem-solvers.</p>
+                <p data-en="At The CodeLab, we believe learning should be joyful, not stressful. We don't force kids into rigid learning structures. Instead, we use games, creative projects, and hands-on activities to make coding fun and engaging. When children enjoy what they're learning, they naturally become more curious, creative, and confident problem-solvers." data-zh="在TheCodeLab，我们相信学习应该是快乐的，而不是压力重重的。我们不强迫孩子遵循僵化的学习结构。相反，我们使用游戏、创意项目和实践活动，让编程变得有趣和吸引人。当孩子们享受他们所学的内容时，他们自然会变得更加好奇、有创造力和自信的问题解决者。">At The CodeLab, we believe learning should be joyful, not stressful. We don't force kids into rigid learning structures. Instead, we use games, creative projects, and hands-on activities to make coding fun and engaging. When children enjoy what they're learning, they naturally become more curious, creative, and confident problem-solvers.</p>
 
                 <div class="feature-grid">
                     <div class="feature-item">
@@ -984,14 +983,14 @@
                 </div>
 
                 <h3 data-en="Join Us in Shaping Tomorrow's Innovators" data-zh="加入我们，塑造明天的创新者">Join Us in Shaping Tomorrow's Innovators</h3>
-                <p data-en="Whether your child is just curious about how games work or dreams of becoming a software engineer, The CodeLab provides the foundation, support, and inspiration they need to succeed." data-zh="无论您的孩子只是对游戏如何运作感到好奇，还是梦想成为软件工程师，代码实验室都能提供他们成功所需的基础、支持和灵感。">Whether your child is just curious about how games work or dreams of becoming a software engineer, The CodeLab provides the foundation, support, and inspiration they need to succeed.</p>
+                <p data-en="Whether your child is just curious about how games work or dreams of becoming a software engineer, The CodeLab provides the foundation, support, and inspiration they need to succeed." data-zh="无论您的孩子只是对游戏如何运作感到好奇，还是梦想成为软件工程师，TheCodeLab都能提供他们成功所需的基础、支持和灵感。">Whether your child is just curious about how games work or dreams of becoming a software engineer, The CodeLab provides the foundation, support, and inspiration they need to succeed.</p>
             </div>
         </div>
     </div>
 
     <!-- About Section (on main page) -->
     <section id="about">
-        <h2 class="section-title" data-en="Why The CodeLab?" data-zh="为什么选择代码实验室？">Why The CodeLab?</h2>
+        <h2 class="section-title" data-en="Why The CodeLab?" data-zh="为什么选择TheCodeLab？">Why The CodeLab?</h2>
         <p class="section-subtitle" data-en="Building the next generation of innovators through joyful, game-based learning" data-zh="通过快乐的游戏化学习培养下一代创新者">Building the next generation of innovators through joyful, game-based learning</p>
         
         <div class="feature-grid">
@@ -1025,7 +1024,7 @@
     <div class="stay-in-touch">
         <h2 data-en="Stay In Touch" data-zh="保持联系">Stay In Touch</h2>
         <p data-en="Subscribe to receive updates about our programs, events, and news!" data-zh="订阅以接收我们的课程、活动和新闻更新！">Subscribe to receive updates about our programs, events, and news!</p>
-        <p data-en="Stay informed as a parent about all the exciting things happening at The CodeLab." data-zh="作为家长，及时了解代码实验室的所有精彩活动。">Stay informed as a parent about all the exciting things happening at The CodeLab.</p>
+        <p data-en="Stay informed as a parent about all the exciting things happening at The CodeLab." data-zh="作为家长，及时了解TheCodeLab的所有精彩活动。">Stay informed as a parent about all the exciting things happening at The CodeLab.</p>
         
         <div class="iframe-container" style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
             <iframe data-tally-src="https://tally.so/embed/wdBANo?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" loading="lazy" width="100%" height="300" frameborder="0" marginheight="0" marginwidth="0" title="Newsletter"></iframe>
@@ -1081,7 +1080,7 @@
     <footer>
         <div class="footer-content">
             <div class="copyright">
-                <p data-en="© 2025 The CodeLab. Empowering the next generation of coders in Johor Bahru, Malaysia." data-zh="© 2025 代码实验室。赋能马来西亚新山的下一代程序员。">© 2025 The CodeLab. Empowering the next generation of coders in Johor Bahru, Malaysia.</p>
+                <p data-en="© 2025 The CodeLab. Empowering the next generation of coders in Johor Bahru, Malaysia." data-zh="© 2025 TheCodeLab。赋能马来西亚新山的下一代程序员。">© 2025 The CodeLab. Empowering the next generation of coders in Johor Bahru, Malaysia.</p>
             </div>
         </div>
     </footer>
